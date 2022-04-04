@@ -19,6 +19,7 @@ namespace E_Commerce.MvcWebUI.Controllers
         { 
         return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(User user)
         {
@@ -30,5 +31,6 @@ namespace E_Commerce.MvcWebUI.Controllers
            .PostAsync(jsonString);
             return View();
         }
+
     }
 }

@@ -18,15 +18,30 @@ namespace E_Commerce.MvcWebUI.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Urunler()
+        {
+            return View();
+        }        
+        public IActionResult UrunDetay()
         {
             return View();
         }
-
+        public IActionResult Indirim()
+        {
+            return View();
+        }
+        public IActionResult Sepet()
+        {
+            return View();
+        }
+        public IActionResult Login()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-}
+} 

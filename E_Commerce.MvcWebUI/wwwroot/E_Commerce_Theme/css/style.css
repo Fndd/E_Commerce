@@ -1,0 +1,245 @@
+.jumbotron{
+    background-image: url("/img/jum10.jpg");
+    background-size: cover;
+    height: 100%;
+
+}
+main > .container {
+    padding: 60px 15px 0;
+  }
+  
+  .footer {
+    background-color: #f5f5f5;
+  }
+  
+  .footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
+  code {
+    font-size: 80%;
+  }
+  #write-review{
+    margin-left: -60px;
+  }
+  #product-price{
+    font-size: 28px;
+    color: red;
+  }
+  img{
+    width: auto;
+    height: 350px;
+  }
+.footer{
+  height: 200px;
+  text-align: center;
+  vertical-align:middle;
+  background-color:#f59c84;
+}
+.logo{
+  height: 60px;
+}
+.kategori{
+  height: 300px;
+}
+.kategori:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
+.carousel-item>img{
+  height: 250px;
+}
+.bg-color{
+  background-color: blue;
+}
+.feature-box:hover{
+  background-color:#f59c84; 
+  color: white;
+  transition: .4s all ease;
+  position: relative;
+  font-size: 17px;
+  -webkit-transform: translate(0 , -10px);
+  -moz-transform: translate(0 , -10px);
+  -o-transform: translate(0 , -10px);
+  -ms-transform: translate(0 , -10px);
+  transform: translate(0 , -10px);
+  border-radius: 10%;
+}
+/* 
+
+
+
+*/
+body{
+  display: flexbox;
+  margin: 0 auto;
+  padding: 0;
+  overflow-x: hidden;
+  font-weight: bold;
+}
+.nav-item>a:hover{
+  color: white !important;
+}
+.nav-title{
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  
+}
+.nav-title:hover{
+text-decoration: none;
+color: white;
+}
+.title1{
+  font-weight: 700;
+  font-size: 50px;
+  color: rgb(145, 32, 69);
+  
+}
+.text-color{
+  color: black;
+  font-size: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 300;
+}
+.resim {
+  position: relative;
+  background-image: url("/img/jum1.jpg");
+  background:rgba(rgb(71, 67, 67), rgb(112, 138, 112), rgb(75, 75, 121), 0.8);
+  opacity: 0.9;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 630px;
+}
+.resim_list{
+  position: relative;
+  background-image: url("/img/jum1.jpg");
+  background:rgba(rgb(71, 67, 67), rgb(112, 138, 112), rgb(75, 75, 121), 0.8);
+  opacity: 0.9;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 80px;
+}
+.HeaderLogoArea{
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.btn-danger{
+  background-color: #f4623a !important;
+  border-color: #f4623a;
+  outline: none;
+  border: none;
+}
+.btn-white{
+  background-color: #fff !important;
+  border-color: #fff;
+  border: none;
+}
+.coloredArea{
+  width: 100%;
+  height: auto;
+  background-color:#f4623a;
+  text-align: center;
+  color: white;
+  padding: 50px;
+}
+.coloredAreaWhite{
+  width: 100%;
+  height: auto;
+  background-color:#fff;
+  text-align: center;
+  padding: 50px;
+}
+.far,.fas{
+  font-size: 20px;
+  color:#f4623a;
+  margin-bottom: 10px;
+}
+.imagesArea{
+  width: 100%;
+  height: auto;
+  
+}
+.imagesArea img{
+  width: 107%;
+  height: 220px;
+}
+.hover__container{
+  width: 100%;
+  position: relative;
+}
+.hover{
+  width: 107%;
+  height: 220px;
+  background: rgba(244, 98, 58, 0.9);
+  color: var(--main-white-color);
+  text-align: center;
+  align-items: center;
+  position: absolute;
+  opacity: 0;
+  transition: linear .2s all;
+}
+.hover__container:hover > .hover{
+  opacity: 1;
+  cursor: pointer;
+}
+.coloredAreaBlack{
+  width: 100%;
+  height:350px;
+  vertical-align: middle;
+  background-color:#fff;
+  text-align: center;
+  padding: 50px !important;
+  padding-top: 80px !important;
+}
+.nav-item a{
+  color: black !important;
+}
+.btn{
+  font-size: 14px;
+}
+.contactItem{
+  text-decoration: none;
+  list-style-type: none;
+}
+.contactItem input{
+  width: 400px;
+  height: auto;
+  margin-top: 20px;
+  outline: none;
+  border: none;
+  border: 1px solid rgb(219, 215, 215);
+}
+.contactItem input:active,.contactItem input:focus{
+box-shadow: 0px 0px 4px 1px #f59c84;
+}
+.contactItem textarea:focus,.contactItem textarea:active{
+  box-shadow: 0px 0px 4px 1px #f59c84;
+}
+.submıt{
+  width: 400px !important;
+}
+.contactItemTextArea{
+  width: 400px;
+  height: 200px;
+  margin-top: 20px;
+  outline: none;
+  border: none;
+  border: 1px solid rgb(219, 215, 215);
+}
+.telephone{
+  color: rgb(63, 62, 62) !important;
+}
+.text-muted {
+  color: #6c757d !important;
+  font-size: 0.875em;
+}
