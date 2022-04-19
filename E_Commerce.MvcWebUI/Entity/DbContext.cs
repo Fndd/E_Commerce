@@ -1,14 +1,23 @@
-﻿using Firebase.Database;
-using Firebase.Database.Query;
-
+﻿using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
 namespace E_Commerce.MvcWebUI.Entity
 {
     public class DbContext
-    {
-        public FirebaseClient firebaseClient;
+    { 
+        IFirebaseConfig config;
+       public IFirebaseClient client; 
         public DbContext()
-        { 
-             firebaseClient = new FirebaseClient("https://ecommercemvcproject-default-rtdb.firebaseio.com/"); 
+        {
+
+            config = new FirebaseConfig
+            {
+                AuthSecret = "NWpqL9Si00rIHKQav2p7UMjrzvcBpj0m8xAq0FWQ",
+                BasePath = "https://ecommercemvcproject-default-rtdb.firebaseio.com/"
+
+            };
+           
+            client = new FireSharp.FirebaseClient(config);
         }
     }
 }

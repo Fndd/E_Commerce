@@ -8,11 +8,11 @@ using Newtonsoft.Json.Linq;
 
 namespace E_Commerce.MvcWebUI.Components
 {
-    public class CpIndexCategoriesList : ViewComponent
+    public class CpLeftCategoriesList : ViewComponent
     {
         DbContext dbcontext;
 
-        public CpIndexCategoriesList()
+        public CpLeftCategoriesList()
         {
             dbcontext = new DbContext();
         }
@@ -25,7 +25,7 @@ namespace E_Commerce.MvcWebUI.Components
             {
                 list.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
             }
-            return View(list); 
+            return View(list);
         }
     }
 }

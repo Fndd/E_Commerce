@@ -8,24 +8,24 @@ using Newtonsoft.Json.Linq;
 
 namespace E_Commerce.MvcWebUI.Components
 {
-    public class CpIndexCategoriesList : ViewComponent
+    public class CpIndexProductList : ViewComponent
     {
         DbContext dbcontext;
 
-        public CpIndexCategoriesList()
+        public CpIndexProductList()
         {
             dbcontext = new DbContext();
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            FirebaseResponse response = dbcontext.client.Get("Category");
+            FirebaseResponse response = dbcontext.client.Get("Product");
             dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
-            var list = new List<Category>();
+            var list = new List<Product>();
             foreach (var item in data)
             {
-                list.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
+                list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
             }
-            return View(list); 
+            return View(list.Take(6).ToList()); 
         }
     }
 }

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Product>
+@{
+    //Anasayfadaki ürünler listesi görüntülenir
+}
+
+<div class="container pt-5 pb-5">
+    <div class="card-deck pb-5">
+        @foreach (var item in Model)
+        {
+            <a asp-action="UrunDetay" asp-controller="Home" asp-route-id="@item.Id">
+                <div class="card">
+                    <img src="~/@item.Image" class="card-img-top" alt="@item.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                    </div>
+                    <div class="card-footer">
+                        @if (@item.Discount > 0)
+                        {
+                            <b style="color: rgb(145, 32, 69);" class="text-d">@item.DiscountedPrice.ToString("c")</b> <b style="text-decoration:line-through" class="text-muted">@item.Price.ToString("c")</b>
+                        }
+                        else
+                        {
+                            <b style="color: rgb(145, 32, 69);" class="text-muted">@item.Price.ToString("c")</b>
+                        }
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>

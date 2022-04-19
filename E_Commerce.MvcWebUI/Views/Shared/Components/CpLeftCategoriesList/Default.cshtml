@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Category>
+@{
+    //TODO: Ürünler sayfasında sol tarafta bulunan kategori listesi
+}
+   <div class="col-md-3">
+                <h3>Kategoriler</h3>
+                <div class="list-group">
+                    <a asp-action="Urunler" asp-controller="Home"  class="list-group-item list-group-item-action active">
+                       Hepsi
+                    </a>
+                    @foreach (var item in Model)
+                    {
+                        <a asp-action="Urunler" asp-controller="Home" asp-route-categoryid="@item.Id" class="list-group-item list-group-item-action">@item.Name</a>
+                    } 
+                </div> 
+            </div>

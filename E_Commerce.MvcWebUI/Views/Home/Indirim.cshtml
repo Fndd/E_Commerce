@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@model IEnumerable<Product>
+<!doctype html>
 <html lang="tr"> 
 <head>
     <!-- Required meta tags -->
@@ -21,78 +22,25 @@
             <div class="col-md-12">
                 <h3>İNDİRİMDE OLAN ÜRÜNLER</h3>
                 <div class="card-deck mb-3">
+                    @foreach (var item in Model)
+                    {  
                     <div class="card">
-                        <img src="holder.js/100px160/" class="card-img-top" alt="...">
+                        <img src="~/@item.Image" class="card-img-top" alt="@item.Name">
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
+                            <h5 class="card-title">@item.Name</h5> 
                         </div>
                         <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
+                            @if (@item.Discount > 0)
+                                {
+                                   <b style="color: rgb(145, 32, 69);" class="text-d">@item.DiscountedPrice.ToString("c")</b> <b style="text-decoration:line-through" class="text-muted">@item.Price.ToString("c")</b>
+                                }
+                                else{
+                                     <b style="color: rgb(145, 32, 69);" class="text-muted">@item.Price.ToString("c")</b>
+                               }
                         </div>
-                    </div>
-                    <div class="card">
-                        <img src="holder.js/100px160/" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                                content.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="holder.js/100px160/" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This card has even longer content than the first to show that equal
-                                height action.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-deck mb-3">
-                    <div class="card">
-                        <img src="holder.js/100px160/" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="holder.js/100px160/" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                                content.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="holder.js/100px160/" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This card has even longer content than the first to show that equal
-                                height action.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </div>
-                    </div>
-                </div>
+                    </div> 
+                     }
+                </div> 
             </div>
         </div>
     </div>
