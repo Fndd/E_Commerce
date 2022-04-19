@@ -1,21 +1,28 @@
 ﻿using E_Commerce.MvcWebUI.Models;
+using Firebase.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace E_Commerce.MvcWebUI.Controllers
 {
     public class HomeController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+    {  
+        
+        public HomeController()
         {
-            _logger = logger;
-        }
-
+            
+        }  
         public IActionResult Index()
         {
-            return View();
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (token != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("SignIn","Account");
+            }
         }
 
         public IActionResult Urunler()

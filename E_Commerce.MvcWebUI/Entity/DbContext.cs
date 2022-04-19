@@ -1,7 +1,7 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 
-namespace E_Commerce.MvcWebUI.Managing
+namespace E_Commerce.MvcWebUI.Entity
 {
     public class DbContext
     {
