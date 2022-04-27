@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Category>
+
+<ul>
+
+@foreach (var category in Model)
+{
+<li>@category.Name</li>   
+    <a asp-action="Edit" asp-controller="Category" asp-route-id="@category.Id"> Düzenle</a>
+    <a asp-action="Delete" asp-controller="Category" asp-route-id="@category.Id"> Sil</a>
+} 
+</ul>

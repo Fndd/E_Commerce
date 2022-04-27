@@ -1,7 +1,5 @@
 ﻿using E_Commerce.MvcWebUI.Entity;
-using Microsoft.AspNetCore.Mvc;
-using Firebase.Database;
-using Firebase.Database.Query;
+using Microsoft.AspNetCore.Mvc; 
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

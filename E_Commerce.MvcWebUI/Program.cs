@@ -6,6 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromDays(1); //oluþturulacak sessionun cache de kalacaðý gün sayýsý
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -17,14 +23,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
- 
+//TODO: Session Oluþturmak için gerekli tanýmlamalar yapýldý
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-app.UseAuthentication();
+app.UseSession(); 
 app.UseAuthorization();
 
 app.MapControllerRoute(

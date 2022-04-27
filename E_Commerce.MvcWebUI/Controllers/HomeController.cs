@@ -1,5 +1,4 @@
 ﻿using E_Commerce.MvcWebUI.Models;
-using Firebase.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using FireSharp.Config;
@@ -8,20 +7,30 @@ using FireSharp.Response;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using E_Commerce.MvcWebUI.Entity;
+ 
 
 namespace E_Commerce.MvcWebUI.Controllers
 {
     public class HomeController : Controller
     {
         DbContext dbcontext;
-
+    
         public HomeController()
-        {
+        { 
             dbcontext = new DbContext();
         }
         public IActionResult Index()
-        { 
-               return View(); 
+        {
+            //var token = HttpContext.Session.GetString("_UserToken");
+
+            //if (token != null)
+            //{
+                return View();
+            //}
+            //else
+            //{
+            //    return RedirectToAction("SignIn","Account");
+            //}  
         }
 
         public IActionResult Urunler(string categoryid)

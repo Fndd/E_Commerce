@@ -3,7 +3,9 @@
 namespace E_Commerce.MvcWebUI.Models
 {
     public class SignUpModel
-    { 
+    {
+        public string Id { get; set; }
+
         [Required]
         [Display(Name ="Email")]
         [DataType(DataType.EmailAddress)]

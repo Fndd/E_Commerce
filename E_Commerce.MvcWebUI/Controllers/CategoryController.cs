@@ -1,9 +1,8 @@
 ﻿using E_Commerce.MvcWebUI.Entity;
 using Microsoft.AspNetCore.Mvc;
-using Firebase.Database;
-using Firebase.Database.Query;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using FireSharp.Response;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace E_Commerce.MvcWebUI.Controllers
 {
@@ -17,11 +16,14 @@ namespace E_Commerce.MvcWebUI.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //var categories = await dbcontext.firebaseClient
-            //  .Child("Category")
-            //  .OnceAsync<Category>();
-            //return View(categories.ToList());
-            return View();  
+            FirebaseResponse response = await dbcontext.client.GetAsync("Category");
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
+            var list = new List<Category>();
+            foreach (var item in data)
+            {
+                list.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
+            }
+            return View(list);
         }
         public IActionResult Add()
         {
@@ -29,43 +31,30 @@ namespace E_Commerce.MvcWebUI.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Add(Category category)
-        {
-           // string guid = Guid.NewGuid().ToString();
-           // category.Id = guid;
-           // string jsonString = JsonSerializer.Serialize(category);
-           // var result = await dbcontext.firebaseClient
-           //.Child("Category")
-           //.PostAsync(jsonString);
+        { 
+            PushResponse responses = await dbcontext.client.PushAsync("Category/", category);
+            category.Id = responses.Result.name;
+            SetResponse setResponse = await dbcontext.client.SetAsync("Category/" + category.Id, category);
             return View();
         }
 
-        public async Task<IActionResult> Edit(string id)
-        {
-            //var category = await dbcontext.firebaseClient
-            //   .Child("Category")
-            //   .Child(id)
-            //   .OnceAsync<Category>();
-            //return View(category.FirstOrDefault());
+        public IActionResult Edit(string id)
+        { 
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Category category)
         {
-           // string jsonString = JsonSerializer.Serialize(category);
-           // await dbcontext.firebaseClient
-           //.Child("Category")
-           //.Child(category.Id)
-           //.PutAsync(jsonString);
-            return View();
+            FirebaseResponse setResponse = await dbcontext.client.UpdateAsync("Category/"+category.Id, category);
+            Category setcategory= setResponse.ResultAs<Category>();
+            return View(setcategory);
         }
         
         public async Task<IActionResult> Delete(string id)
         {
-            //await dbcontext.firebaseClient
-            //.Child("Categry")
-            //.Child(id)
-            //.DeleteAsync();
+            FirebaseResponse response = await dbcontext.client.DeleteAsync("Category/"+id);  
+            Console.WriteLine(response.StatusCode);
             return View();
         }
     }

@@ -1,0 +1,23 @@
+﻿@model Product
+ 
+
+         <form role="form" method="post" class="form-horizontal"  enctype="multipart/form-data" asp-controller="Product" asp-action="Create">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Ürün Adı</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control input-medium" asp-for="Name" placeholder="Ürün Adı">
+                            </div>
+                        </div>
+                            <div class="form-group">
+                            <label>Ürün Fotoğrafı</label>
+                            <div class="input-group">
+                                <input type="file" class="img" id="file" name="file" accept="image/*" required> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn blue">Kaydet</button>
+                        <a asp-action="Index" asp-controller="Ürün" class="btn default">İptal</a>
+                    </div>
+                </form>
