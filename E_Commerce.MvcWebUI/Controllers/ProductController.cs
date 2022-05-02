@@ -67,32 +67,7 @@ namespace E_Commerce.MvcWebUI.Controllers
             Console.WriteLine(response.StatusCode);
             return View();
         }
-         /// <summary>
-         /// Kullanıcı için favori ürün ekliyor
-         /// </summary>
-         /// <param name="ProductId"></param>
-         /// <param name="UserId"></param>
-         /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> FavoriteAdd(string ProductId, string UserId)
-        { 
 
-            PushResponse responses = await dbcontext.client.PushAsync("User/" + UserId + "/FavoriteProducts/", ProductId);
-            string id = responses.Result.name;
-            SetResponse setResponse = await dbcontext.client.SetAsync("User/" + UserId + "/FavoriteProducts/" + id, ProductId);
-            return View();
-        }
-        /// <summary>
-        /// Kullanıcının favori ürünü silinir.
-        /// </summary>
-        /// <param name="id">Favori ürün Id'sidir.</param>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
-        [HttpDelete]
-        public async Task<IActionResult> FavoriteDelete(string id, string UserId)
-        {
-            FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + UserId + "/FavoriteProducts/" + id); 
-            return View();
-        }
+     
     }
 }

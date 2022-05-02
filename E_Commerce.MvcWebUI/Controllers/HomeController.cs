@@ -14,9 +14,9 @@ namespace E_Commerce.MvcWebUI.Controllers
     public class HomeController : Controller
     {
         DbContext dbcontext;
-    
+
         public HomeController()
-        { 
+        {
             dbcontext = new DbContext();
         }
         public IActionResult Index()
@@ -25,7 +25,7 @@ namespace E_Commerce.MvcWebUI.Controllers
 
             //if (token != null)
             //{
-                return View();
+            return View();
             //}
             //else
             //{
@@ -75,15 +75,70 @@ namespace E_Commerce.MvcWebUI.Controllers
             {
                 return View(list.Where(x => x.CategoryId == categoryid).ToList());
             }
-            
-            return View(list); 
-        }        
+
+            return View(list);
+        }
         public IActionResult UrunDetay(string id)
         {
             FirebaseResponse response = dbcontext.client.Get("Product/" + id);
             Product data = JsonConvert.DeserializeObject<Product>(response.Body);
             return View(data);
         }
+        /// <summary>
+        /// Favori ürünleri listeler
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> FavoriUrunler(string UserId)
+        {
+            FirebaseResponse response = await dbcontext.client.GetAsync("User/" + UserId + "/FavoriteProducts/");
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
+            var list = new List<Product>();
+            foreach (var item in data)
+            {
+                list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
+            }
+            return View(list);
+        }
+   
+        /// <summary>
+        /// Kullanıcı için favori ürün ekliyor
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> FavoriUrunEkle(string ProductId, string UserId)
+        {
+            FirebaseResponse response = dbcontext.client.Get("Product/" + ProductId);
+            Product data = JsonConvert.DeserializeObject<Product>(response.Body);
+
+            PushResponse responses = await dbcontext.client.PushAsync("User/" + UserId + "/FavoriteProducts/", data);
+            string id = responses.Result.name;
+            SetResponse setResponse = await dbcontext.client.SetAsync("User/" + UserId + "/FavoriteProducts/" + id, data);
+            return View();
+        }
+        /// <summary>
+        /// Kullanıcının favori ürünü silinir.
+        /// </summary>
+        /// <param name="id">Favori ürün Id'sidir.</param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> FavoriUrunSil(string id, string UserId)
+        {
+            FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + UserId + "/FavoriteProducts/" + id);
+            return View();
+        }
+
+
+
+
+
+
+
+
+
         public IActionResult Indirim()
         {
             FirebaseResponse response = dbcontext.client.Get("Product");
