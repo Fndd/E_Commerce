@@ -94,11 +94,12 @@ namespace E_Commerce.MvcWebUI.Controllers
             FirebaseResponse response = await dbcontext.client.GetAsync("User/" + UserId + "/FavoriteProducts/");
             dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
             var list = new List<Product>();
-            foreach (var item in data)
-            {
-                list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
-            }
-            return View(list);
+            //foreach (var item in data)
+            //{
+            //    list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
+            //}
+            //return View(list);
+            return View();
         }
    
         /// <summary>
@@ -130,14 +131,6 @@ namespace E_Commerce.MvcWebUI.Controllers
             FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + UserId + "/FavoriteProducts/" + id);
             return View();
         }
-
-
-
-
-
-
-
-
 
         public IActionResult Indirim()
         {
