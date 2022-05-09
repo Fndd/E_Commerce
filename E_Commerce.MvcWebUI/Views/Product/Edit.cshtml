@@ -1,19 +1,93 @@
 ﻿@model Product
- 
+<html>
+    <head>
+        <link rel="stylesheet" href="~/Davur-v1.2-19-August-2021/frontend/css/style.css" />
+    </head>
+<body>
+    <div class="content-wrapper">
+        <!-- row -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-2 col-md-3">
+                    <a asp-controller="Home" onClick="history.go(-1); return false;" class="back-btn d-block mb-5"><i class="fa fa-arrow-left"></i> Geri</a>
+                </div>
+                <div class="col-xl-10 col-md-9">
+                    <div class="row">
+                        <div class="col-xl-7 col-lg-7 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Ürün Düzenle</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form asp-controller="Product" asp-action="Edit" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" asp-for="Id" />
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün Adı *</label>
+                                            <input id="Name" name="Name" type="text" class="form-control solid" asp-for="@Model.Name" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün Açıklaması *</label>
+                                            <input id="Description" name="Description" type="text" class="form-control solid" asp-for="@Model.Description" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Stok Durumu *</label>
+                                            <input id="Stock" name="Stock" type="text" class="form-control solid" asp-for="@Model.Stock" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Fiyat *</label>
+                                            <input id="Price" name="Price" type="text" class="form-control solid" asp-for="@Model.Price" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">İndirim *</label>
+                                            <input id="Discount" name="Discount" type="text" class="form-control solid" asp-for="@Model.Discount" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">İndirimli Fiyat *</label>
+                                            <input id="DiscountedPrice" name="DiscountedPrice" type="text" class="form-control solid" asp-for="@Model.DiscountedPrice" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ana Sayfa Durumu *</label>
+                                            <input id="IsHome" name="IsHome" type="text" class="form-control solid" asp-for="@Model.IsHome" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Onay Durumu *</label>
+                                            <input id="IsApproved" name="IsApproved" type="text" class="form-control solid" asp-for="@Model.IsApproved" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün Kodu *</label>
+                                            <input id="ProductCode" name="ProductCode" type="text" class="form-control solid" asp-for="@Model.ProductCode" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Kategori Id *</label>
+                                            <input id="CategoryId" name="CategoryId" type="text" class="form-control solid" asp-for="@Model.CategoryId" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Beğeni *</label>
+                                            <input id="Like" name="Like" type="text" class="form-control solid" asp-for="@Model.Like" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">İndirimde *</label>
+                                            <input id="OnSale" name="OnSale" type="text" class="form-control solid" asp-for="@Model.OnSale" required>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Yükle</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input id="file" name="file" type="file" class="custom-file-input" accept="image/*">
+                                                <label class="custom-file-label">Fotoğraf Seç</label>
+                                            </div>
+                                        </div>
 
-         <form role="form" method="post" class="form-horizontal" asp-controller="Product" asp-action="Edit">
-             <input type="hidden" asp-for="Id" />
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Ürün Adı</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control input-medium" asp-for="Name" placeholder="Ürün Adı">
+                                        <button type="submit" class="btn btn-primary btn-block rounded">Kaydet</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn blue">Kaydet</button>
-                        <a asp-action="Index" asp-controller="Product" class="btn default">İptal</a>
-                    </div>
-  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

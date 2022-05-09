@@ -1,19 +1,53 @@
 ﻿@model Category
- 
-
-         <form role="form" method="post" class="form-horizontal" asp-controller="Category" asp-action="Edit">
-             <input type="hidden" asp-for="Id" />
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Kategori Adı</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control input-medium" asp-for="Name" placeholder="Kategori Adı">
+<html>
+<head>
+    <link rel="stylesheet" href="~/Davur-v1.2-19-August-2021/frontend/css/style.css" />
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- row -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-2 col-md-3">
+                    <a asp-controller="Home" onClick="history.go(-1); return false;" class="back-btn d-block mb-5"><i class="fa fa-arrow-left"></i> Geri</a>
+                </div>
+                <div class="col-xl-10 col-md-9">
+                    <div class="row">
+                        <div class="col-xl-7 col-lg-7 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Kategori Düzenle</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form asp-controller="Category" asp-action="Edit" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" asp-for="Id" />
+                                        <input type="hidden" asp-for="ImagePath" />
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Kategori Adı</label>
+                                            <input id="Name" name="Name" type="text" class="form-control solid" asp-for="@Model.Name" required>
+                                        </div>                                        
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Kategori Açıklaması</label>
+                                            <input id="Description" name="Description" type="text" class="form-control solid" asp-for="@Model.Description" required>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Yükle</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input id="file" name="file" type="file" class="custom-file-input" accept="image/*">
+                                                <label class="custom-file-label">Fotoğraf Seç</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block rounded">Kaydet</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn blue">Kaydet</button>
-                        <a asp-action="Index" asp-controller="Category" class="btn default">İptal</a>
-                    </div>
-  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,23 +1,87 @@
 ﻿@model Product
- 
+<html>
+<head>
+    <link rel="stylesheet" href="~/Davur-v1.2-19-August-2021/frontend/css/style.css" />
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- row -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-2 col-md-3">
+                    <a asp-controller="Product" asp-action="Index" class="back-btn d-block mb-5"><i class="fa fa-arrow-left"></i> Geri</a>
+                </div>
+                <div class="col-xl-10 col-md-9">
+                    <div class="row">
+                        <div class="col-xl-7 col-lg-7 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Ürün Ekle</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form asp-controller="Product" asp-action="Add" method="post" enctype="multipart/form-data">
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün Adı</label>
+                                            <input id="Name" name="Name" type="text" class="form-control solid" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün Açıklaması</label>
+                                            <input id="Descripton" name="Descripton" type="text" class="form-control solid" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Stok Durumu</label>
+                                            <input id="Stock" name="Stock" type="text" class="form-control solid" required>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün Fiyatı</label>
+                                            <input type="text" name="Price" class="form-control solid" typeof="number" required />
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün İndirimi</label>
+                                            <input type="text" name="Discount" class="form-control solid" typeof="number" required />
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün İndirimli Fiyat</label>
+                                            <input type="text" name="DiscountedPrice" class="form-control solid" typeof="number" required />
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ana Sayfa Durumu</label>
+                                            <input type="checkbox" data-val="true" id="IsHome" name="IsHome" value="true">
+                                            <input name="IsHome" type="hidden" value="false">
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Onay Durumu</label>
+                                            <input type="checkbox" data-val="true" id="IsApproved" name="IsApproved" value="true">
+                                            <input name="IsApproved" type="hidden" value="false">
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Ürün Kodu</label>
+                                            <textarea rows="1" id="ProductCode" name="ProductCode" class="form-control solid" required></textarea>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Kategori Id</label>
+                                            <textarea rows="1" id="CategoryId" name="CategoryId" class="form-control solid" required></textarea>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">Beğeni</label>
+                                            <textarea rows="1" id="Like" name="Like" class="form-control solid" required></textarea>
+                                        </div>
+                                        <div class="form-group mb-3 pb-3">
+                                            <label class="font-w600">İndirim Durumu</label>
+                                            <input type="checkbox" data-val="true" id="OnSale" name="OnSale" value="true">
+                                            <input name="IsApproved" type="hidden" value="false">
+                                        </div>
 
-         <form role="form" method="post" class="form-horizontal"  enctype="multipart/form-data" asp-controller="Product" asp-action="Create">
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Ürün Adı</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control input-medium" asp-for="Name" placeholder="Ürün Adı">
-                            </div>
-                        </div>
-                            <div class="form-group">
-                            <label>Ürün Fotoğrafı</label>
-                            <div class="input-group">
-                                <input type="file" class="img" id="file" name="file" accept="image/*" required> 
+                                        <button type="submit" class="btn btn-primary btn-block rounded">Kaydet</button>
+                                    </form>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn blue">Kaydet</button>
-                        <a asp-action="Index" asp-controller="Ürün" class="btn default">İptal</a>
-                    </div>
-                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
