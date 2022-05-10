@@ -97,28 +97,28 @@
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
                     <div class="form px-4 pt-5">
+                        <form asp-action="SignIn">
+                        <input type="text" name="Email" class="form-control" placeholder="Email veya Telefon">
 
-                        <input type="text" name="" class="form-control" placeholder="Email veya Telefon">
-
-                        <input type="text" name="" class="form-control" placeholder="Parola">
+                        <input type="text" name="Password" class="form-control" placeholder="Parola">
                         <button class="btn btn-dark btn-block">Giriş Yap</button>
-
+                       </form>
                     </div>
 
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <div class="form px-4">
+                             <form asp-action="Registration">
+                        <input type="text" name="Name" class="form-control" placeholder="Ad Soyad">
 
-                        <input type="text" name="" class="form-control" placeholder="Ad Soyad">
+                        <input type="text" name="Email" class="form-control" placeholder="Email">
 
-                        <input type="text" name="" class="form-control" placeholder="Email">
+                        <input type="text" name="PhoneNumber" class="form-control" placeholder="Telefon">
 
-                        <input type="text" name="" class="form-control" placeholder="Telefon">
-
-                        <input type="text" name="" class="form-control" placeholder="Parola">
+                        <input type="text" name="Password" class="form-control" placeholder="Parola">
 
                         <button class="btn btn-dark btn-block">Kayıt Ol</button>
-
+                        </form>
                     </div>
                 </div>
             </div>

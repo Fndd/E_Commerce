@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model IEnumerable<Cart>
 <html lang="en">
 
 <head>
@@ -9,41 +9,68 @@
     <link rel="stylesheet" href="~/E_Commerce_Theme/css/sepet.css" />
 </head>
 
-<body>
-    <main>
-        <h3>Favori Ürünler</h3>
-        @if (Model!=null)
-        {  
-       @foreach (var item in Model)
-       {
-             <div class="basket-product">
-                <div class="item">
-                    <div class="product-image">
-                        <img src="~/@item.Image" alt="Placholder Image 2" class="product-frame">
-                    </div>
-                    <div class="product-details">
-                        <h1><strong><span class="item-quantity"></strong>@item.Name</h1> 
-                        <p>@item.Price.ToString("c")</p>
-                    </div>
-                </div> 
-                <div class="remove">
-                    <a asp-action="SepeteUrunEkle" asp-controller="Cart" asp-route-ProductId="@item.Id">SEPETE EKLE</a>
-                </div>
-                </div>
-            }
+<body> 
+      <main> 
+                  <h3>Sepetim</h3>
+          @if (Model != null)
+            {
+            <div class="basket">
 
-        }
-        else
+                <div class="basket-labels">
+                    <ul>
+                        <li class="item item-heading">Ürün</li>
+                        <li class="price">Tutar</li>
+                        <li class="quantity">Adet</li>
+                        <li class="subtotal">Ara Toplam</li>
+                    </ul>
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    <div class="basket-product">
+                        <div class="item">
+                            <div class="product-image">
+                                <img src="~/@item.Image" alt="@item.Name" class="product-frame">
+                            </div>
+                            <div class="product-details">
+                                <h1><strong><span class="item-quantity">@item.Quantity</span> x </strong> @item.Name</h1>
+
+                                <p>Ürün Kodu - @item.ProductCode</p>
+                            </div>
+                        </div>
+                        <div class="price">@item.Price</div>
+                        <div class="quantity">
+                            <input type="number" value="@item.Quantity" min="1" class="quantity-field">
+                        </div>
+                        <div class="subtotal">@item.RowTotal</div>
+                        <div class="remove">
+                            <a asp-action="SepettenUrunSil" asp-controller="Cart" asp-route-id="@item.Id">Kaldır</a>
+                        </div>
+                    </div>
+                } 
+            </div>
+            <aside>
+                <div class="summary">
+                <div class="summary-total-items"><span class="total-items"></span> Sepetindeki Ürünler</div>
+                <div class="summary-subtotal">
+                    <div class="subtotal-title">Ara Toplam</div>
+                    <div class="subtotal-value final-value" id="basket-subtotal">@Model.Sum(x=>x.Price*x.Quantity)</div>
+                
+                <div class="summary-checkout">
+                    <button class="checkout-cta">Güvenlİ ödemeye gİt.</button>
+                </div>
+            </div>
+        </aside>
+          }   else
         {
               <div class="basket-product">
                 <div class="item"> 
                     <div class="product-details">
-                        <h1><strong><span class="item-quantity"></strong>Favori ürününüz bulunamadı.</h1>  
+                        <h1><strong><span class="item-quantity"></strong>Sepetinşzde ürün bulunamadı.</h1>  
                     </div>
                 </div>  
                 </div>
         }
-        </div>
     </main>
 </body>
 

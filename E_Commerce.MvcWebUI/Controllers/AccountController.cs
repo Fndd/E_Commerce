@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using static E_Commerce.MvcWebUI.Models.FirebaseErrorModel;
 using FireSharp.Response;
 using E_Commerce.MvcWebUI.Entity;
+using Newtonsoft.Json.Linq;
 
 namespace E_Commerce.MvcWebUI.Controllers
 {
@@ -14,8 +15,7 @@ namespace E_Commerce.MvcWebUI.Controllers
     {
         FirebaseAuthProvider auth;
         DbContext dbcontext;
-
-        
+         
         public AccountController()
         {
             auth = new FirebaseAuthProvider(
@@ -30,9 +30,13 @@ namespace E_Commerce.MvcWebUI.Controllers
         public async Task<IActionResult> Registration(SignUpModel signUpModel)
         {
             try
-            {
+            { 
                 //Kullanıcının oluşturulması 
-                await auth.CreateUserWithEmailAndPasswordAsync(signUpModel.Email, signUpModel.Password);
+                await auth.CreateUserWithEmailAndPasswordAsync(signUpModel.Email, signUpModel.Password).ContinueWith(task =>
+                {
+                    // Firebase user has been created.
+                    Firebase.Auth.User newUser = task.Result.User;
+                });
 
                 //Kullanıcının diğer bilgierinin veri tabanına aktarılması
                 PushResponse responses = dbcontext.client.Push("User/", signUpModel);
@@ -47,7 +51,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                 if (token != null)
                 {
                     HttpContext.Session.SetString("_UserToken", token);
-
+                    HttpContext.Session.SetString("_UserId", responses.Result.name); 
                     return RedirectToAction("Index","Home");
                 }
             }
@@ -74,11 +78,22 @@ namespace E_Commerce.MvcWebUI.Controllers
                 var fbAuthLink = await auth
                                 .SignInWithEmailAndPasswordAsync(loginModel.Email, loginModel.Password);
                 string token = fbAuthLink.FirebaseToken;
+
+                FirebaseResponse response = dbcontext.client.Get("User");
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
+                var list = new List<Entity.User>();
+                foreach (var item in data)
+                {
+                    list.Add(JsonConvert.DeserializeObject<Entity.User>(((JProperty)item).Value.ToString()));
+                }
+                 var usr = list.Where(x => x.Email == loginModel.Email && x.Password == loginModel.Password).FirstOrDefault();
+
                 //save the token to a session variable
                 if (token != null)
                 {
                     HttpContext.Session.SetString("_UserToken", token);
-
+                    HttpContext.Session.SetString("_UserId", usr.Id);
+                    HttpContext.Session.SetString("_UserName", usr.Name+" "+usr.Surname); 
                     return RedirectToAction("Index","Home");
                 }
 

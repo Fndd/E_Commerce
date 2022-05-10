@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-            <!-- Required meta tags -->
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -30,7 +30,7 @@
             <div class="container py-2">
                 <a class="nav-title" href="~/Home/Index">E-TİCARET</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -44,15 +44,30 @@
                         <li class="nav-item">
                             <a class="nav-link px-3" href="~/Home/Indirim">İndirimdekiler</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="~/Home/Sepet">Sepet</a>
-                        </li>                          
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="~/Home/FavoriUrunler">Favori Ürünlerim</a>
-                        </li>  
-                        <li class="nav-item"> 
-                            <a class="nav-link px-3" href="~/Account/SignIn">Giriş Yap / Kayıt Ol</a>
-                        </li>
+                        @{
+                            var token = Context.Session.GetString("_UserToken");
+                            var username = Context.Session.GetString("_UserName");
+
+                            if (token != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" href="~/Cart/Sepet">Sepet</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" href="~/Home/FavoriUrunler">Favori Ürünlerim</a>
+                                </li> 
+                                  <li class="nav-item">
+                                    <a class="nav-link px-3">@username</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link px-3" href="~/Account/SignIn">Giriş Yap / Kayıt Ol</a>
+                                </li>
+                              
+                            }
+                        }
                     </ul>
                 </div>
             </div>

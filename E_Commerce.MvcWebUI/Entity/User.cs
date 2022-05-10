@@ -30,5 +30,6 @@ namespace E_Commerce.MvcWebUI.Entity
         [Required]
         [Display(Name = "Address")]
         public string Address { get; set; } = String.Empty;
+        public string Role { get; set; } = String.Empty;
     }
 }
