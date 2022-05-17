@@ -48,6 +48,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                 //Kullanıcının diğer bilgierinin veri tabanına aktarılması
                 PushResponse responses = dbcontext.client.Push("User/", signUpModel);
                 signUpModel.Id = responses.Result.name;
+                signUpModel.Role = "customer";
                 SetResponse setResponse = dbcontext.client.Set("User/" + signUpModel.Id, signUpModel);
 
                 //yeni kullanıcının logunun tutulması yani kullanıcı girişi yaparak oluşturulan tokeni alıyoruz.
@@ -59,6 +60,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                 {
                     HttpContext.Session.SetString("_UserToken", token);
                     HttpContext.Session.SetString("_UserId", responses.Result.name); 
+                    
                     return RedirectToAction("Index","Home");
                 }
             }
@@ -101,6 +103,8 @@ namespace E_Commerce.MvcWebUI.Controllers
                     HttpContext.Session.SetString("_UserToken", token);
                     HttpContext.Session.SetString("_UserId", usr.Id);
                     HttpContext.Session.SetString("_UserName", usr.Name+" "+usr.Surname); 
+                    HttpContext.Session.SetString("_UserRole", usr.Role); 
+
                     return RedirectToAction("Index","Home");
                 }
 

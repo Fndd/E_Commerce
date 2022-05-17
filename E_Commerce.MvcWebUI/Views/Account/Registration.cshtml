@@ -109,6 +109,7 @@
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <div class="form px-4">
                     <form asp-action="Registration" method="post">
+                       <p>@ViewBag.Message</p>
                         <input type="text" name="Name" class="form-control" placeholder="Ad Soyad" required>
 
                         <input type="email" name="Email" class="form-control" placeholder="Email" required> 

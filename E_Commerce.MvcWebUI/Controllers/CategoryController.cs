@@ -16,18 +16,38 @@ namespace E_Commerce.MvcWebUI.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            FirebaseResponse response = await dbcontext.client.GetAsync("Category");
-            dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
-            var list = new List<Category>();
-            foreach (var item in data)
+            var token = HttpContext.Session.GetString("_UserToken");
+            var userid = HttpContext.Session.GetString("_UserId");
+            var userRole = HttpContext.Session.GetString("_UserRole");
+
+            if (token != null && userRole == "admin")
             {
-                list.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
+                FirebaseResponse response = await dbcontext.client.GetAsync("Category");
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
+                var list = new List<Category>();
+                foreach (var item in data)
+                {
+                    list.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
+                }
+                return View(list);
             }
-            return View(list);
+            else
+                return RedirectToAction("SignIn","Account");
         }
         public IActionResult Add()
         {
-            return View();
+            var token = HttpContext.Session.GetString("_UserToken");
+            var userid = HttpContext.Session.GetString("_UserId");
+            var userRole = HttpContext.Session.GetString("_UserRole");
+
+            if (token != null && userRole == "admin")
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("SignIn", "Account");
+            }
         }
         [HttpPost]
         public async Task<IActionResult> Add(Category category)
@@ -39,8 +59,19 @@ namespace E_Commerce.MvcWebUI.Controllers
         }
 
         public IActionResult Edit(string id)
-        { 
-            return View();
+        {
+            var token = HttpContext.Session.GetString("_UserToken");
+            var userid = HttpContext.Session.GetString("_UserId");
+            var userRole = HttpContext.Session.GetString("_UserRole");
+
+            if (token != null && userRole == "admin")
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("SignIn", "Account");
+            }
         }
 
         [HttpPost]
@@ -53,9 +84,20 @@ namespace E_Commerce.MvcWebUI.Controllers
         
         public async Task<IActionResult> Delete(string id)
         {
-            FirebaseResponse response = await dbcontext.client.DeleteAsync("Category/"+id);  
-            Console.WriteLine(response.StatusCode);
-            return RedirectToAction("Index","Category");
+            var token = HttpContext.Session.GetString("_UserToken");
+            var userid = HttpContext.Session.GetString("_UserId");
+            var userRole = HttpContext.Session.GetString("_UserRole");
+
+            if (token != null && userRole == "admin")
+            {
+                FirebaseResponse response = await dbcontext.client.DeleteAsync("Category/" + id);
+                Console.WriteLine(response.StatusCode);
+                return RedirectToAction("Index", "Category");
+            }
+            else
+            {
+                return RedirectToAction("SignIn", "Account");
+            } 
         }
     }
 }

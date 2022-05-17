@@ -42,7 +42,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                     return View(list);
                 }
             }
-                return View();
+            return RedirectToAction("SignIn", "Account");
         }
 
         /// <summary>
@@ -110,15 +110,71 @@ namespace E_Commerce.MvcWebUI.Controllers
                     }
                     return RedirectToAction("Sepet","Cart");
             }
-            return View();
+            return RedirectToAction("SignIn", "Account");
         }
+
+        public async Task<IActionResult> SepetiOnayla()
+        {
+            var token = HttpContext.Session.GetString("_UserToken");
+            var userid = HttpContext.Session.GetString("_UserId");
+
+            if (token != null)
+            {
+                //Kullanıcının sepetindeki ürüneri bul 
+                FirebaseResponse responseSepet = dbcontext.client.Get("User/" + userid + "/Cart/");
+                dynamic datasepet = JsonConvert.DeserializeObject<dynamic>(responseSepet.Body);
+                var list = new List<Entity.Cart>();
+                if (datasepet != null)
+                {
+                    foreach (var item in datasepet)
+                    {
+                        list.Add(JsonConvert.DeserializeObject<Entity.Cart>(((JProperty)item).Value.ToString()));
+                    }
+                     
+                    //varsa sadece miktar ve fiyatı güncelle
+                    if (list != null)
+                    {
+                        //Sipariş oluştur
+                        Order order = new Order();
+                        order.UserId = userid;
+                        order.IsOk = false;
+                        order.CreateTime = DateTime.Now;
+                        order.OrderNumber = Guid.NewGuid().ToString();
+                        order.Total = list.Sum(x => x.RowTotal);
+                        //Siparişi firebase'e gönder
+                        PushResponse responseorder = await dbcontext.client.PushAsync("Order/", order);
+                        order.Id = responseorder.Result.name;
+                        SetResponse setResponse = await dbcontext.client.SetAsync("Order/" + order.Id, responseorder);
+
+                        //sepetteki ürünleri sipariş detayına ekle 
+                        Orderline orderline = new Orderline();
+                        PushResponse responseorderline;
+                        foreach (var item in list)
+                        {
+                            orderline.ProductId = item.ProductId;
+                            orderline.OrderId = order.Id;
+                            orderline.Quantity = item.Quantity;
+                            orderline.Price = item.Price;
+                            orderline.RowTotal = item.RowTotal;
+                            responseorderline = await dbcontext.client.PushAsync("Orderline/", orderline);
+                            orderline.Id = responseorderline.Result.name;
+                            SetResponse setResponseorderline = await dbcontext.client.SetAsync("Orderline/" + orderline.Id, responseorderline);
+                        }
+                        return RedirectToAction("Siparislerim", "Order");
+                    }
+                } 
+            }
+            return RedirectToAction("SignIn", "Account");
+        }
+         
+
         /// <summary>
         /// Kullanıcının sepetteki ürünü silinir.
         /// </summary>
         /// <param name="id">Favori ürün Id'sidir.</param>
         /// <param name="UserId"></param>
         /// <returns></returns>
- 
+
         public async Task<IActionResult> SepettenUrunSil(string id)
         {
             var token = HttpContext.Session.GetString("_UserToken");
@@ -129,7 +185,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                 FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + userid + "/Cart/" + id);
                 return RedirectToAction("Sepet","Cart");
             }
-            return RedirectToAction("Sepet","Cart");
+            return RedirectToAction("SignIn", "Account"); 
         } 
     }
 }
