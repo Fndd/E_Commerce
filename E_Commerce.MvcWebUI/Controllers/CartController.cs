@@ -160,6 +160,8 @@ namespace E_Commerce.MvcWebUI.Controllers
                             orderline.Id = responseorderline.Result.name;
                             SetResponse setResponseorderline = await dbcontext.client.SetAsync("Orderline/" + orderline.Id, responseorderline);
                         }
+                        //sepetteki ürünleri sil
+                        FirebaseResponse responsesepet = await dbcontext.client.DeleteAsync("User/" + userid + "/Cart/");
                         return RedirectToAction("Siparislerim", "Order");
                     }
                 } 
