@@ -127,9 +127,9 @@ namespace E_Commerce.MvcWebUI.Controllers
             if (token != null)
             {
                 FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + userid + "/Cart/" + id);
-                return RedirectToAction("Sepet");
+                return RedirectToAction("Sepet","Cart");
             }
-            return View();
+            return RedirectToAction("Sepet","Cart");
         } 
     }
 }

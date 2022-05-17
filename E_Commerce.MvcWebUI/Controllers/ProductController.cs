@@ -16,6 +16,7 @@ namespace E_Commerce.MvcWebUI.Controllers
         {
             _webHostEnvironment = webHostEnvironment;
             dbcontext = new DbContext();
+            newImage = new ImageClass();
         }
         public async Task<IActionResult> Index()
         {

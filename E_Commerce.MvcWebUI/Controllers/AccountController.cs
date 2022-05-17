@@ -34,8 +34,15 @@ namespace E_Commerce.MvcWebUI.Controllers
                 //Kullanıcının oluşturulması 
                 await auth.CreateUserWithEmailAndPasswordAsync(signUpModel.Email, signUpModel.Password).ContinueWith(task =>
                 {
-                    // Firebase user has been created.
-                    Firebase.Auth.User newUser = task.Result.User;
+                    if (task.IsFaulted)
+                    {
+                        ViewBag.Message = task.Exception.Message;
+                    }
+                    else
+                    {
+                        // Firebase user has been created.
+                        Firebase.Auth.User newUser = task.Result.User;
+                    }
                 });
 
                 //Kullanıcının diğer bilgierinin veri tabanına aktarılması

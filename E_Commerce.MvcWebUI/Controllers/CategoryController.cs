@@ -35,7 +35,7 @@ namespace E_Commerce.MvcWebUI.Controllers
             PushResponse responses = await dbcontext.client.PushAsync("Category/", category);
             category.Id = responses.Result.name;
             SetResponse setResponse = await dbcontext.client.SetAsync("Category/" + category.Id, category);
-            return View();
+            return RedirectToAction("Index", "Category");
         }
 
         public IActionResult Edit(string id)
@@ -55,7 +55,7 @@ namespace E_Commerce.MvcWebUI.Controllers
         {
             FirebaseResponse response = await dbcontext.client.DeleteAsync("Category/"+id);  
             Console.WriteLine(response.StatusCode);
-            return View();
+            return RedirectToAction("Index","Category");
         }
     }
 }
