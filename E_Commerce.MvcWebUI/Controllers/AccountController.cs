@@ -30,39 +30,49 @@ namespace E_Commerce.MvcWebUI.Controllers
         public async Task<IActionResult> Registration(SignUpModel signUpModel)
         {
             try
-            { 
+            {
+                PushResponse responses;
+
                 //Kullanıcının oluşturulması 
                 await auth.CreateUserWithEmailAndPasswordAsync(signUpModel.Email, signUpModel.Password).ContinueWith(task =>
                 {
                     if (task.IsFaulted)
                     {
                         ViewBag.Message = task.Exception.Message;
+                       
                     }
                     else
                     {
                         // Firebase user has been created.
                         Firebase.Auth.User newUser = task.Result.User;
+                        //Kullanıcının diğer bilgierinin veri tabanına aktarılması
+                        responses  = dbcontext.client.Push("User/", signUpModel);
+                        signUpModel.Id = responses.Result.name;
+                        signUpModel.Role = "customer";
+                        SetResponse setResponse = dbcontext.client.Set("User/" + signUpModel.Id, signUpModel);
+                        HttpContext.Session.SetString("_UserId", responses.Result.name);
                     }
                 });
 
-                //Kullanıcının diğer bilgierinin veri tabanına aktarılması
-                PushResponse responses = dbcontext.client.Push("User/", signUpModel);
-                signUpModel.Id = responses.Result.name;
-                signUpModel.Role = "customer";
-                SetResponse setResponse = dbcontext.client.Set("User/" + signUpModel.Id, signUpModel);
+                if (String.IsNullOrWhiteSpace(ViewBag.Message))
+                {   
+                    //yeni kullanıcının logunun tutulması yani kullanıcı girişi yaparak oluşturulan tokeni alıyoruz.
+                    var fbAuthLink = await auth
+                                    .SignInWithEmailAndPasswordAsync(signUpModel.Email, signUpModel.Password);
+                    string token = fbAuthLink.FirebaseToken;
+                    //token için session oluşturuluyor
+                    if (token != null)
+                    {
+                        HttpContext.Session.SetString("_UserToken", token);  
+                        return RedirectToAction("Index", "Home");
+                    }
 
-                //yeni kullanıcının logunun tutulması yani kullanıcı girişi yaparak oluşturulan tokeni alıyoruz.
-                var fbAuthLink = await auth
-                                .SignInWithEmailAndPasswordAsync(signUpModel.Email, signUpModel.Password);
-                string token = fbAuthLink.FirebaseToken;
-                //token için session oluşturuluyor
-                if (token != null)
-                {
-                    HttpContext.Session.SetString("_UserToken", token);
-                    HttpContext.Session.SetString("_UserId", responses.Result.name); 
-                    
-                    return RedirectToAction("Index","Home");
                 }
+                else
+                {
+                    return View(signUpModel);
+                }
+             
             }
             catch (FirebaseAuthException ex)
             {
