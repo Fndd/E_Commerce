@@ -57,8 +57,8 @@
                     <div class="subtotal-value final-value" id="basket-subtotal">@Model.Sum(x=>x.Price*x.Quantity)</div>
                 
                 <div class="summary-checkout">
-                    <button class="checkout-cta">Güvenlİ ödemeye gİt.</button>
-                </div>
+                    <button class="checkout-cta" onclick="siparisiTamamla">Siparişi Tamamla.</button>
+                 </div>
             </div>
         </aside>
           }   else
@@ -189,7 +189,15 @@
       });
       $('.total-items').text(sumItems);
     }
-
+    function siparisiTamamla() {
+        MessageBox.Show("Sipariş Oluşturuldu !", "Kargo durumundan sonra bilgilendirileceksiniz.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        var productRow = $(removeButton).parent().parent();
+      productRow.slideUp(fadeTime, function() {
+        productRow.remove();
+        recalculateCart();
+        updateSumItems();
+      });
+    }
     /* Remove item from cart */
     function removeItem(removeButton) {
       /* Remove row from DOM and recalc cart total */

@@ -39,10 +39,10 @@
                             <a class="nav-link px-3" href="~/Home/Index">Ana Sayfa</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link px-3" href="~/Home/Urunler">Mağaza</a>
+                            <a class="nav-link px-3" href="~/Category/Index">Kategoriler</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link px-3" href="~/Home/Indirim">İndirimdekiler</a>
+                            <a class="nav-link px-3" href="~/Product/Index">Ürünler</a>
                         </li>
                         @{
                             var token = Context.Session.GetString("_UserToken");
@@ -50,15 +50,6 @@
 
                             if (token != null)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link px-3" href="~/Cart/Sepet">Sepet</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link px-3" href="~/Home/FavoriUrunler">Favori Ürünlerim</a>
-                                </li> 
-                                  <li class="nav-item">
-                                    <a class="nav-link px-3">@username</a>
-                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link px-3" href="~/Account/Logout">Çıkış Yap</a>
                                 </li>

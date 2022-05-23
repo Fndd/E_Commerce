@@ -25,8 +25,9 @@
                     @foreach (var item in Model)
                     {  
                     <div class="card">
-                        <img src="~/@item.Image" class="card-img-top" alt="@item.Name">
+                        <img src="~/@item.Image" class="card-img-top" alt="@item.Name" style="width:384px;">
                         <div class="card-body">
+                            <a asp-action="UrunDetay" asp-controller="Home" asp-route-id="@item.Id">
                             <h5 class="card-title">@item.Name</h5> 
                         </div>
                         <div class="card-footer">

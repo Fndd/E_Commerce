@@ -1,4 +1,7 @@
 ﻿@model Product
+@{
+    Layout = "~Views/Shared/_LayoutAdmin.cshtml";
+}
 <html>
 <head>
     <link rel="stylesheet" href="~/Davur-v1.2-19-August-2021/frontend/css/style.css" />
@@ -70,6 +73,15 @@
                                             <label class="font-w600">İndirim Durumu</label>
                                             <input type="checkbox" data-val="true" id="OnSale" name="OnSale" value="true">
                                             <input name="IsApproved" type="hidden" value="false">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Yükle</span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input id="file" name="file" type="file" class="custom-file-input" accept="image/*">
+                                                <label class="custom-file-label">Fotoğraf Seç</label>
+                                            </div>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary btn-block rounded">Kaydet</button>
