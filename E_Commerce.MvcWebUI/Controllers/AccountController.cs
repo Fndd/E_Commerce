@@ -97,6 +97,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                 var fbAuthLink = await auth
                                 .SignInWithEmailAndPasswordAsync(loginModel.Email, loginModel.Password);
                 string token = fbAuthLink.FirebaseToken;
+                var userRole = HttpContext.Session.GetString("_UserRole");
 
                 FirebaseResponse response = dbcontext.client.Get("User");
                 dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
@@ -113,10 +114,15 @@ namespace E_Commerce.MvcWebUI.Controllers
                     HttpContext.Session.SetString("_UserToken", token);
                     HttpContext.Session.SetString("_UserId", usr.Id);
                     HttpContext.Session.SetString("_UserName", usr.Name+" "+usr.Surname); 
-                    HttpContext.Session.SetString("_UserRole", usr.Role); 
-
+                    HttpContext.Session.SetString("_UserRole", usr.Role);
+                    if (token != null && userRole == "admin")
+                    {
+                        return View("~/Views/Admin/Index.cshtml");
+                    }
+                    else
                     return RedirectToAction("Index","Home");
                 }
+
 
             }
             catch (FirebaseAuthException ex)
@@ -126,7 +132,8 @@ namespace E_Commerce.MvcWebUI.Controllers
                 return View(loginModel);
             }
 
-            return View();
+
+                return View();
         }
         public IActionResult LogOut()
         {

@@ -25,9 +25,17 @@
             }
             @await Component.InvokeAsync("CpLeftCategoriesList")
 
-
             <div class="col-md-9">
                 <div class="card-deck mb-3">
+                    <div class="input-group" style="margin-top:-5%;">
+              <div class="form-outline">
+                <input type="search" id="form1" class="form-control" />
+                <label class="form-label" for="form1">Ürün Ara</label>
+              </div>
+              <button type="button" class="btn btn-primary" style="height: 39px;">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
                     @foreach (var item in Model)
                     {
                         <div class="card">
