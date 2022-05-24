@@ -40,6 +40,24 @@ namespace E_Commerce.MvcWebUI.Controllers
 
             return View(list);
         }
+        [HttpPost]
+        public IActionResult Urunler(string categoryid,string urunAdi)
+        {
+            FirebaseResponse response = dbcontext.client.Get("Product");
+            dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
+            var list = new List<Product>();
+            foreach (var item in data)
+            {
+                list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
+            }
+            if (!String.IsNullOrWhiteSpace(urunAdi))
+            {
+                return View(list.Where(x => x.Name.ToLower().Contains(urunAdi.ToLower())).ToList());
+            }
+
+            return View(list);
+        }
+
         public IActionResult UrunDetay(string id)
         {
             FirebaseResponse response = dbcontext.client.Get("Product/" + id);

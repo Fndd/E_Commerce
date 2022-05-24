@@ -75,7 +75,19 @@ namespace E_Commerce.MvcWebUI.Controllers
 
             if (token != null && userRole == "admin")
             {
-                return View();
+
+                FirebaseResponse response = dbcontext.client.Get("Product");
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
+                var list = new List<Product>();
+                foreach (var item in data)
+                {
+                    list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
+                }
+                if (!String.IsNullOrWhiteSpace(id))
+                {
+                    return View(list.Where(x => x.Id == id).FirstOrDefault());
+                }
+                return RedirectToAction("Index", "Product");
             }
             else
             {
