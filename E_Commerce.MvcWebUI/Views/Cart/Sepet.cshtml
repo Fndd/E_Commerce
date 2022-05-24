@@ -57,7 +57,7 @@
                     <div class="subtotal-value final-value" id="basket-subtotal">@Model.Sum(x=>x.Price*x.Quantity)</div>
                 
                 <div class="summary-checkout">
-                    <button class="checkout-cta" onclick="siparisiTamamla">Siparişi Tamamla.</button>
+                    <a asp-controller="Cart" asp-action="SepetiOnayla" class="checkout-cta" onclick="siparisiTamamla">Siparişi Tamamla.</a>
                  </div>
             </div>
         </aside>

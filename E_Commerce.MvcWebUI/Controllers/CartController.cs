@@ -41,6 +41,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                     }
                     return View(list);
                 }
+                return View();
             }
             return RedirectToAction("SignIn", "Account");
         }

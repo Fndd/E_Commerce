@@ -85,7 +85,7 @@ namespace E_Commerce.MvcWebUI.Controllers
         /// <param name="ProductId"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        [HttpPost]
+      
         public async Task<IActionResult> FavoriUrunEkle(string ProductId)
         {
             var token = HttpContext.Session.GetString("_UserToken");
@@ -99,7 +99,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                 PushResponse responses = await dbcontext.client.PushAsync("User/" + userid + "/FavoriteProducts/", data);
                 string id = responses.Result.name;
                 SetResponse setResponse = await dbcontext.client.SetAsync("User/" + userid + "/FavoriteProducts/" + id, data);
-                return View();
+                return RedirectToAction("FavoriUrunler", "Home");
             }
             else
             {
@@ -121,7 +121,7 @@ namespace E_Commerce.MvcWebUI.Controllers
             if (token != null)
             {
                 FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + userid + "/FavoriteProducts/" + id);
-                return View("FavoriUrunler","Home");  
+                return RedirectToAction("FavoriUrunler","Home");  
             }
             else
             {
