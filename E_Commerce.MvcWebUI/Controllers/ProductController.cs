@@ -4,6 +4,7 @@ using FireSharp.Response;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using E_Commerce.MvcWebUI.Managing;
+using E_Commerce.MvcWebUI.Models;
 
 namespace E_Commerce.MvcWebUI.Controllers
 {
@@ -48,7 +49,17 @@ namespace E_Commerce.MvcWebUI.Controllers
 
             if (token != null && userRole == "admin")
             {
-                return View();
+                FirebaseResponse response = dbcontext.client.Get("Category");
+                dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
+                var list = new List<Category>();
+                foreach (var item in data)
+                {
+                    list.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
+                }
+                ProductCreateModel model = new ProductCreateModel();
+                model.Categories = list;
+
+                return View(model);
             }
             else
             {
@@ -84,8 +95,19 @@ namespace E_Commerce.MvcWebUI.Controllers
                     list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
                 }
                 if (!String.IsNullOrWhiteSpace(id))
-                {
-                    return View(list.Where(x => x.Id == id).FirstOrDefault());
+                { 
+                    FirebaseResponse responsecat = dbcontext.client.Get("Category");
+                    dynamic datacat = JsonConvert.DeserializeObject<dynamic>(response.Body);
+                    var listcat = new List<Category>();
+                    foreach (var item in data)
+                    {
+                        listcat.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
+                    }
+                    ProductCreateModel model = new ProductCreateModel();
+                    model.Categories = listcat;
+                    model.Product = list.Where(x => x.Id == id).FirstOrDefault();
+
+                    return View(model);
                 }
                 return RedirectToAction("Index", "Product");
             }

@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model ProductCreateModel
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
@@ -23,54 +23,56 @@
                                 </div>
                                 <div class="card-body">
                                     <form asp-controller="Product" asp-action="Edit" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" asp-for="Id" />
+                                        <input type="hidden" asp-for="Product.Id" />
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Ürün Adı *</label>
-                                            <input id="Name" name="Name" type="text" class="form-control solid" asp-for="@Model.Name" required>
+                                            <input id="Name" name="Name" type="text" class="form-control solid" asp-for="Product.Name" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Ürün Açıklaması *</label>
-                                            <input id="Description" name="Description" type="text" class="form-control solid" asp-for="@Model.Description" required>
+                                            <input id="Description" name="Description" type="text" class="form-control solid" asp-for="Product.Description" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Stok Durumu *</label>
-                                            <input id="Stock" name="Stock" type="text" class="form-control solid" asp-for="@Model.Stock" required>
+                                            <input id="Stock" name="Stock" type="text" class="form-control solid" asp-for="Product.Stock" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Fiyat *</label>
-                                            <input id="Price" name="Price" type="text" class="form-control solid" asp-for="@Model.Price" required>
+                                            <input id="Price" name="Price" type="text" class="form-control solid" asp-for="Product.Price" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">İndirim *</label>
-                                            <input id="Discount" name="Discount" type="text" class="form-control solid" asp-for="@Model.Discount" required>
+                                            <input id="Discount" name="Discount" type="text" class="form-control solid" asp-for="Product.Discount" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">İndirimli Fiyat *</label>
-                                            <input id="DiscountedPrice" name="DiscountedPrice" type="text" class="form-control solid" asp-for="@Model.DiscountedPrice" required>
+                                            <input id="DiscountedPrice" name="DiscountedPrice" type="text" class="form-control solid" asp-for="Product.DiscountedPrice" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Ana Sayfa Durumu *</label>
-                                            <input id="IsHome" name="IsHome" type="text" class="form-control solid" asp-for="@Model.IsHome" required>
+                                            <input id="IsHome" name="IsHome" type="text" class="form-control solid" asp-for="Product.IsHome" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Onay Durumu *</label>
-                                            <input id="IsApproved" name="IsApproved" type="text" class="form-control solid" asp-for="@Model.IsApproved" required>
+                                            <input id="IsApproved" name="IsApproved" type="text" class="form-control solid" asp-for="Product.IsApproved" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Ürün Kodu *</label>
-                                            <input id="ProductCode" name="ProductCode" type="text" class="form-control solid" asp-for="@Model.ProductCode" required>
+                                            <input id="ProductCode" name="ProductCode" type="text" class="form-control solid" asp-for="Product.ProductCode" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Kategori Id *</label>
-                                            <input id="CategoryId" name="CategoryId" type="text" class="form-control solid" asp-for="@Model.CategoryId" required>
+                                                       <select asp-items="@(new SelectList(Model.Categories,"Id","Name"))" name="CategoryId" class="form-control input-medium" required>
+                                    <option value="0">KAtegori Seçiniz</option>
+                                </select>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Beğeni *</label>
-                                            <input id="Like" name="Like" type="text" class="form-control solid" asp-for="@Model.Like" required>
+                                            <input id="Like" name="Like" type="text" class="form-control solid" asp-for="Product.Like" required>
                                         </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">İndirimde *</label>
-                                            <input id="OnSale" name="OnSale" type="text" class="form-control solid" asp-for="@Model.OnSale" required>
+                                            <input id="OnSale" name="OnSale" type="text" class="form-control solid" asp-for="Product.OnSale" required>
                                         </div>
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
