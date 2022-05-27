@@ -3,16 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 using FireSharp.Response;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using E_Commerce.MvcWebUI.Managing;
 
 namespace E_Commerce.MvcWebUI.Controllers
 {
     public class CategoryController : Controller
     {
         DbContext dbcontext;
-
-        public CategoryController()
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        ImageClass newImage;
+        public CategoryController(IWebHostEnvironment webHostEnvironment)
         {
+            _webHostEnvironment = webHostEnvironment;
             dbcontext = new DbContext();
+            newImage = new ImageClass();
+
         }
         public async Task<IActionResult> Index()
         {
@@ -50,8 +55,11 @@ namespace E_Commerce.MvcWebUI.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Add(Category category)
-        { 
+        public async Task<IActionResult> Add(Category category, IFormFile file)
+        {
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Image\\Category");
+            category.ImagePath = newImage.UploadImage(file, uploadsFolder);
+
             PushResponse responses = await dbcontext.client.PushAsync("Category/", category);
             category.Id = responses.Result.name;
             SetResponse setResponse = await dbcontext.client.SetAsync("Category/" + category.Id, category);
@@ -87,8 +95,11 @@ namespace E_Commerce.MvcWebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Category category)
+        public async Task<IActionResult> Edit(Category category, IFormFile file, string ImagePath)
         {
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Image\\Category"); 
+            category.ImagePath = newImage.UpdateImage(ImagePath, file, uploadsFolder);
+
             FirebaseResponse setResponse = await dbcontext.client.UpdateAsync("Category/"+category.Id, category);
             Category setcategory= setResponse.ResultAs<Category>();
             return View(setcategory);

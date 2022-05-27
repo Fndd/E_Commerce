@@ -25,6 +25,8 @@
                     <table id="example5" class="display mb-4 defaultTable dataTablesCard" style="min-width: 845px;">
                         <thead>
                             <tr>
+
+                                <th> </th>
                                 <th> Ürün Adı </th>
                                 <th> Stok</th>
                                 <th> Fiyat</th>
@@ -39,6 +41,7 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td><img src="~/@item.Image" width="80"  style="width:80px!important; height:70px !important"  /></td>
                                     <td><strong>@item.Name</strong></td>
                                     <td>@item.Stock</td>
                                     <td>@item.Price</td>

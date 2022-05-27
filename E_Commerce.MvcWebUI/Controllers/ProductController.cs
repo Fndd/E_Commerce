@@ -118,11 +118,11 @@ namespace E_Commerce.MvcWebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Product product, IFormFile file)
+        public async Task<IActionResult> Edit(Product product, IFormFile file,string ImagePath)
         {
             //Ürün fotografının kaydedilmesi
             string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "Image\\Product");
-            product.Image = newImage.UploadImage(file, uploadsFolder);
+            product.Image = newImage.UpdateImage(ImagePath,file, uploadsFolder);
 
             FirebaseResponse setResponse = await dbcontext.client.UpdateAsync("Product/" + product.Id, product);
             Product setproduct = setResponse.ResultAs<Product>();

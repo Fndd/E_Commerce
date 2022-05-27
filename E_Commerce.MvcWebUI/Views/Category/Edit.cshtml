@@ -24,7 +24,10 @@
                                 <div class="card-body">
                                     <form asp-controller="Category" asp-action="Edit" method="post" enctype="multipart/form-data">
                                         <input type="hidden" asp-for="Id" />
-                                        <input type="hidden" asp-for="ImagePath" />
+                                        <input type="hidden"  asp-for="ImagePath" />
+                                        <div class="form-group mb-3 pb-3"> 
+                                            <img src="~/@Model.ImagePath"  width="170">
+                                        </div>
                                         <div class="form-group mb-3 pb-3">
                                             <label class="font-w600">Kategori Adı</label>
                                             <input id="Name" name="Name" type="text" class="form-control solid" asp-for="@Model.Name" required>
