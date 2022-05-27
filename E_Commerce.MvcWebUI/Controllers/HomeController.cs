@@ -76,6 +76,7 @@ namespace E_Commerce.MvcWebUI.Controllers
 
             if (token != null)
             {
+                 
                 FirebaseResponse response = await dbcontext.client.GetAsync("User/" + id + "/FavoriteProducts/");
                 dynamic data = JsonConvert.DeserializeObject<dynamic>(response.Body);
                 var list = new List<Product>();
@@ -85,7 +86,7 @@ namespace E_Commerce.MvcWebUI.Controllers
                     {
                         list.Add(JsonConvert.DeserializeObject<Product>(((JProperty)item).Value.ToString()));
                     }
-                    return View(list);
+                    return View(list.OrderByDescending(x=>x.Id));
                 }
                 return View();
             }
@@ -109,28 +110,27 @@ namespace E_Commerce.MvcWebUI.Controllers
             var token = HttpContext.Session.GetString("_UserToken");
             var userid = HttpContext.Session.GetString("_UserId");
 
-            if (token != null) {
+            if (token != null)
+            {
+                //Ürünü bul
+                FirebaseResponse response = dbcontext.client.Get("Product/" + ProductId);
+                Product data = JsonConvert.DeserializeObject<Product>(response.Body);
 
-
-                FirebaseResponse responsefav = await dbcontext.client.GetAsync("User/" + userid + "/FavoriteProducts/");
-                dynamic datafav = JsonConvert.DeserializeObject<dynamic>(responsefav.Body);
-
-                if (datafav == null)
-                { 
-                    FirebaseResponse response = dbcontext.client.Get("Product/" + ProductId);
-                    Product data = JsonConvert.DeserializeObject<Product>(response.Body);
-
+                //Kullanıcının sepetinde daha favoriönce bu ürün eklenmiş mi kontrol et
+                FirebaseResponse responsefavori = dbcontext.client.Get("User/" + userid+"/FavoriteProducts/" +ProductId);
+                dynamic datafavori = JsonConvert.DeserializeObject<dynamic>(responsefavori.Body);
+                var list = new List<Entity.Cart>();
+                if (datafavori == null)
+                {   
+                    //Yoksa yeni oluştur
                     PushResponse responses = await dbcontext.client.PushAsync("User/" + userid + "/FavoriteProducts/", data);
                     string id = responses.Result.name;
+                    data.Id = id;
                     SetResponse setResponse = await dbcontext.client.SetAsync("User/" + userid + "/FavoriteProducts/" + id, data);
-                    return RedirectToAction("FavoriUrunler", "Home");
                 }
-                return View();
+                return RedirectToAction("FavoriUrunler", "Home");
             }
-            else
-            {
-                return RedirectToAction("SignIn", "Account");
-            }
+            return RedirectToAction("SignIn", "Account");
         }
         /// <summary>
         /// Kullanıcının favori ürünü silinir.
@@ -138,7 +138,7 @@ namespace E_Commerce.MvcWebUI.Controllers
         /// <param name="id">Favori ürün Id'sidir.</param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        [HttpDelete]
+        
         public async Task<IActionResult> FavoriUrunSil(string ProductId)
         {
             var token = HttpContext.Session.GetString("_UserToken");
