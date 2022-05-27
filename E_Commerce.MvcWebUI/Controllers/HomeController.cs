@@ -109,15 +109,23 @@ namespace E_Commerce.MvcWebUI.Controllers
             var token = HttpContext.Session.GetString("_UserToken");
             var userid = HttpContext.Session.GetString("_UserId");
 
-            if (token != null) { 
+            if (token != null) {
 
-                FirebaseResponse response = dbcontext.client.Get("Product/" + ProductId);
-                Product data = JsonConvert.DeserializeObject<Product>(response.Body);
 
-                PushResponse responses = await dbcontext.client.PushAsync("User/" + userid + "/FavoriteProducts/", data);
-                string id = responses.Result.name;
-                SetResponse setResponse = await dbcontext.client.SetAsync("User/" + userid + "/FavoriteProducts/" + id, data);
-                return RedirectToAction("FavoriUrunler", "Home");
+                FirebaseResponse responsefav = await dbcontext.client.GetAsync("User/" + userid + "/FavoriteProducts/");
+                dynamic datafav = JsonConvert.DeserializeObject<dynamic>(responsefav.Body);
+
+                if (datafav == null)
+                { 
+                    FirebaseResponse response = dbcontext.client.Get("Product/" + ProductId);
+                    Product data = JsonConvert.DeserializeObject<Product>(response.Body);
+
+                    PushResponse responses = await dbcontext.client.PushAsync("User/" + userid + "/FavoriteProducts/", data);
+                    string id = responses.Result.name;
+                    SetResponse setResponse = await dbcontext.client.SetAsync("User/" + userid + "/FavoriteProducts/" + id, data);
+                    return RedirectToAction("FavoriUrunler", "Home");
+                }
+                return View();
             }
             else
             {
@@ -131,14 +139,14 @@ namespace E_Commerce.MvcWebUI.Controllers
         /// <param name="UserId"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<IActionResult> FavoriUrunSil(string id)
+        public async Task<IActionResult> FavoriUrunSil(string ProductId)
         {
             var token = HttpContext.Session.GetString("_UserToken");
             var userid = HttpContext.Session.GetString("_UserId");
 
             if (token != null)
             {
-                FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + userid + "/FavoriteProducts/" + id);
+                FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + userid + "/FavoriteProducts/" + ProductId);
                 return RedirectToAction("FavoriUrunler","Home");  
             }
             else
