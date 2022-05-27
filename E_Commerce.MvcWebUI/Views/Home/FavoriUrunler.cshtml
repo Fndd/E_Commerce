@@ -28,6 +28,7 @@
                 </div> 
                 <div class="remove">
                     <a asp-action="SepeteUrunEkle" asp-controller="Cart" asp-route-ProductId="@item.Id">SEPETE EKLE</a>
+                    <a style="color:red;" asp-action="FavoriUrunSil" asp-controller="Home" asp-route-ProductId="@item.Id">FAVORİLERDEN KALDIR</a>
                 </div>
                 </div>
             }
