@@ -112,22 +112,51 @@ namespace E_Commerce.MvcWebUI.Controllers
 
             if (token != null)
             {
-                //Ürünü bul
-                FirebaseResponse response = dbcontext.client.Get("Product/" + ProductId);
-                Product data = JsonConvert.DeserializeObject<Product>(response.Body);
-
+              
                 //Kullanıcının sepetinde daha favoriönce bu ürün eklenmiş mi kontrol et
-                FirebaseResponse responsefavori = dbcontext.client.Get("User/" + userid+"/FavoriteProducts/" +ProductId);
+                FirebaseResponse responsefavori = dbcontext.client.Get("User/" + userid + "/FavoriteProducts/");
                 dynamic datafavori = JsonConvert.DeserializeObject<dynamic>(responsefavori.Body);
-                var list = new List<Entity.Cart>();
-                if (datafavori == null)
-                {   
+                var list = new List<Entity.FavoriteProducts>();
+                if (datafavori != null)
+                {
+                    foreach (var item in datafavori)
+                    { 
+                        list.Add(JsonConvert.DeserializeObject<FavoriteProducts>(((JProperty)item).Value.ToString()));
+                    }
+
+                }
+                var urun = list.Where(x => x.ProductId == ProductId).FirstOrDefault();
+                if (urun == null)
+                {
+                    //Ürünü bul
+                    FirebaseResponse response = dbcontext.client.Get("Product/" + ProductId);
+                    Product data = JsonConvert.DeserializeObject<Product>(response.Body);
+
+
+                    var favoriUrun =  new Entity.FavoriteProducts()
+                    {
+                        ProductId = ProductId,
+                        ProductCode = data.ProductCode,
+                        CategoryId = data.CategoryId,
+                        Description = data.Description,
+                        Discount = data.Discount,
+                        DiscountedPrice = data.DiscountedPrice,
+                        Image = data.Image,
+                        IsApproved = data.IsApproved,
+                        IsHome = data.IsHome,
+                        Like = data.Like,
+                        Name = data.Name,
+                        Price = data.Price,
+                        Stock = data.Stock,
+                        OnSale= data.OnSale,
+                        
+                    };
                     //Yoksa yeni oluştur
-                    PushResponse responses = await dbcontext.client.PushAsync("User/" + userid + "/FavoriteProducts/", data);
+                    PushResponse responses = await dbcontext.client.PushAsync("User/" + userid + "/FavoriteProducts/", favoriUrun);
                     string id = responses.Result.name;
                     data.Id = id;
-                    SetResponse setResponse = await dbcontext.client.SetAsync("User/" + userid + "/FavoriteProducts/" + id, data);
-                }
+                    SetResponse setResponse = await dbcontext.client.SetAsync("User/" + userid + "/FavoriteProducts/" + id, favoriUrun);
+                } 
                 return RedirectToAction("FavoriUrunler", "Home");
             }
             return RedirectToAction("SignIn", "Account");
@@ -139,14 +168,14 @@ namespace E_Commerce.MvcWebUI.Controllers
         /// <param name="UserId"></param>
         /// <returns></returns>
         
-        public async Task<IActionResult> FavoriUrunSil(string ProductId)
+        public async Task<IActionResult> FavoriUrunSil(string id)
         {
             var token = HttpContext.Session.GetString("_UserToken");
             var userid = HttpContext.Session.GetString("_UserId");
 
             if (token != null)
             {
-                FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + userid + "/FavoriteProducts/" + ProductId);
+                FirebaseResponse response = await dbcontext.client.DeleteAsync("User/" + userid + "/FavoriteProducts/"+id);
                 return RedirectToAction("FavoriUrunler","Home");  
             }
             else
