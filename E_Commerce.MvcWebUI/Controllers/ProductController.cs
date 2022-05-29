@@ -97,9 +97,9 @@ namespace E_Commerce.MvcWebUI.Controllers
                 if (!String.IsNullOrWhiteSpace(id))
                 { 
                     FirebaseResponse responsecat = dbcontext.client.Get("Category");
-                    dynamic datacat = JsonConvert.DeserializeObject<dynamic>(response.Body);
+                    dynamic datacat = JsonConvert.DeserializeObject<dynamic>(responsecat.Body);
                     var listcat = new List<Category>();
-                    foreach (var item in data)
+                    foreach (var item in datacat)
                     {
                         listcat.Add(JsonConvert.DeserializeObject<Category>(((JProperty)item).Value.ToString()));
                     }
